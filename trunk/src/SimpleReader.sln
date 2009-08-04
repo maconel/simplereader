@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleReader", "SimpleReader.vcproj", "{318B6524-C115-42F0-9965-AB0267DE94F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|M8SDK (ARMV4I) = Debug|M8SDK (ARMV4I)
+		Release|M8SDK (ARMV4I) = Release|M8SDK (ARMV4I)
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{318B6524-C115-42F0-9965-AB0267DE94F0}.Debug|M8SDK (ARMV4I).ActiveCfg = Debug|M8SDK (ARMV4I)
+		{318B6524-C115-42F0-9965-AB0267DE94F0}.Debug|M8SDK (ARMV4I).Build.0 = Debug|M8SDK (ARMV4I)
+		{318B6524-C115-42F0-9965-AB0267DE94F0}.Debug|M8SDK (ARMV4I).Deploy.0 = Debug|M8SDK (ARMV4I)
+		{318B6524-C115-42F0-9965-AB0267DE94F0}.Release|M8SDK (ARMV4I).ActiveCfg = Release|M8SDK (ARMV4I)
+		{318B6524-C115-42F0-9965-AB0267DE94F0}.Release|M8SDK (ARMV4I).Build.0 = Release|M8SDK (ARMV4I)
+		{318B6524-C115-42F0-9965-AB0267DE94F0}.Release|M8SDK (ARMV4I).Deploy.0 = Release|M8SDK (ARMV4I)
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
