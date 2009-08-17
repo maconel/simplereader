@@ -14,11 +14,17 @@ CConfig::CConfig()
 	iContentFontHeight = 28;
 	iStatusBarFontHeight = 22;
 	MAKE_RECT(iPositionButtonRect, 20, 20, 100, 100);
-	MAKE_RECT(iSelectFileButtonRect, 480-20-100, 20, 100, 100);
-	MAKE_RECT(iPrevPageButtonRect, (480-100)/2, 20, 100, 100);
+	MAKE_RECT(iSelectFileButtonRect, (480-100)/2, 20, 100, 100);
+	MAKE_RECT(iPrevPageButtonRect, (480-100)/2, 152, 100, 100);
 	MAKE_RECT(iNextPageButtonRect, (480-150)/2, (720-150)/2, 150, 150);
+	MAKE_RECT(iExitButtonRect, 480-20-100, 20, 100, 100);
 	iDefaultDirectory = _T("\\disk\\ebook");
 	iScreenAlwaysOn = false;
+	iDisablekey_home = false;
+	iDisablekey_power = false;
+	iDisablekey_play = true;
+	iDisablekey_volumeup = true;
+	iDisablekey_volumedown = true;
 }
 
 CConfig::~CConfig()
@@ -95,11 +101,31 @@ void CConfig::Load()
 	if (IniReadInt(_T("ui"), _T("nextpagebuttonrect_bottom"), &intValue, filename))
 		iNextPageButtonRect.bottom = intValue;
 
+	if (IniReadInt(_T("ui"), _T("exitbuttonrect_left"), &intValue, filename))
+		iExitButtonRect.left = intValue;
+	if (IniReadInt(_T("ui"), _T("exitbuttonrect_top"), &intValue, filename))
+		iExitButtonRect.top = intValue;
+	if (IniReadInt(_T("ui"), _T("exitbuttonrect_right"), &intValue, filename))
+		iExitButtonRect.right = intValue;
+	if (IniReadInt(_T("ui"), _T("exitbuttonrect_bottom"), &intValue, filename))
+		iExitButtonRect.bottom = intValue;
+
 	if (IniReadString(_T("ui"), _T("defaultdirectory"), &strValue, filename) && strValue != NULL)
 		iDefaultDirectory = strValue;
 
 	if (IniReadInt(_T("ui"), _T("screenalwayson"), &intValue, filename))
 		iScreenAlwaysOn = !!intValue;
+
+	if (IniReadInt(_T("ui"), _T("disablekey_home"), &intValue, filename))
+		iDisablekey_home = !!intValue;
+	if (IniReadInt(_T("ui"), _T("disablekey_power"), &intValue, filename))
+		iDisablekey_power = !!intValue;
+	if (IniReadInt(_T("ui"), _T("disablekey_play"), &intValue, filename))
+		iDisablekey_play = !!intValue;
+	if (IniReadInt(_T("ui"), _T("disablekey_volumeup"), &intValue, filename))
+		iDisablekey_volumeup = !!intValue;
+	if (IniReadInt(_T("ui"), _T("disablekey_volumedown"), &intValue, filename))
+		iDisablekey_volumedown = !!intValue;
 }
 
 void CConfig::Save()

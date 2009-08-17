@@ -14,10 +14,13 @@ MZ_IMPLEMENT_DYNAMIC(CContentWnd)
 
 CContentWnd::CContentWnd()
 {
+	iDisableKey = 0;
 }
 
 CContentWnd::~CContentWnd()
 {
+	UnHoldShellUsingSomeKeyFunction(m_hWnd, iDisableKey);
+
 	iMemoryDC.Unload();
 
 	if (gConfig.iScreenAlwaysOn)
@@ -48,6 +51,20 @@ BOOL CContentWnd::OnInitDialog()
 		SetScreenAlwaysOn(m_hWnd);
 	}
 
+	//屏蔽某些按键。
+	iDisableKey = 0;
+	if (gConfig.iDisablekey_home)
+		iDisableKey |= MZ_HARDKEY_HOME;
+	if (gConfig.iDisablekey_power)
+		iDisableKey |= MZ_HARDKEY_POWER;
+	if (gConfig.iDisablekey_play)
+		iDisableKey |= MZ_HARDKEY_PLAY;
+	if (gConfig.iDisablekey_volumeup)
+		iDisableKey |= MZ_HARDKEY_VOLUME_UP;
+	if (gConfig.iDisablekey_volumedown)
+		iDisableKey |= MZ_HARDKEY_VOLUME_DOWN;
+	HoldShellUsingSomeKeyFunction(m_hWnd, iDisableKey);
+
 	//字体。
 	iStatusBarCompnent.SetFontHeight(gConfig.iStatusBarFontHeight);
 
@@ -70,16 +87,19 @@ BOOL CContentWnd::OnInitDialog()
 	iSelectFileButton.SetObserver(this);
 	iPrevPageButton.SetObserver(this);
 	iNextPageButton.SetObserver(this);
+	iExitButton.SetObserver(this);
 
 	iPositionButton.SetRect(gConfig.iPositionButtonRect.left, gConfig.iPositionButtonRect.top, RECT_WIDTH(gConfig.iPositionButtonRect), RECT_HEIGHT(gConfig.iPositionButtonRect));
 	iSelectFileButton.SetRect(gConfig.iSelectFileButtonRect.left, gConfig.iSelectFileButtonRect.top, RECT_WIDTH(gConfig.iSelectFileButtonRect), RECT_HEIGHT(gConfig.iSelectFileButtonRect));
 	iPrevPageButton.SetRect(gConfig.iPrevPageButtonRect.left, gConfig.iPrevPageButtonRect.top, RECT_WIDTH(gConfig.iPrevPageButtonRect), RECT_HEIGHT(gConfig.iPrevPageButtonRect));
 	iNextPageButton.SetRect(gConfig.iNextPageButtonRect.left, gConfig.iNextPageButtonRect.top, RECT_WIDTH(gConfig.iNextPageButtonRect), RECT_HEIGHT(gConfig.iNextPageButtonRect));
+	iExitButton.SetRect(gConfig.iExitButtonRect.left, gConfig.iExitButtonRect.top, RECT_WIDTH(gConfig.iExitButtonRect), RECT_HEIGHT(gConfig.iExitButtonRect));
 
 	iPositionButton.SetBackColor(gConfig.iButtonColor);
 	iSelectFileButton.SetBackColor(gConfig.iButtonColor);
 	iPrevPageButton.SetBackColor(gConfig.iButtonColor);
 	iNextPageButton.SetBackColor(gConfig.iButtonColor);
+	iExitButton.SetBackColor(gConfig.iButtonColor);
 
 	//打开上次的文件。
 	if (!gConfig.iLastFilename.IsEmpty())
@@ -103,6 +123,7 @@ void CContentWnd::OnLButtonUp(UINT fwKeys, int xPos, int yPos)
 	iPositionButton.ButtonDown(xPos, yPos);
 	iPrevPageButton.ButtonDown(xPos, yPos);
 	iNextPageButton.ButtonDown(xPos, yPos);
+	iExitButton.ButtonDown(xPos, yPos);
 }
 
 int CContentWnd::OnShellHomeKey(UINT message, WPARAM wParam, LPARAM lParam)
@@ -163,6 +184,7 @@ void CContentWnd::Draw(HDC aDc)
 	iPositionButton.Draw(aDc);
 	iPrevPageButton.Draw(aDc);
 	iNextPageButton.Draw(aDc);
+	iExitButton.Draw(aDc);
 
 	//内容。
 	iContentCompnent.Draw(aDc);
@@ -227,6 +249,11 @@ void CContentWnd::OnNextPageButtonClick()
 	}
 }
 
+void CContentWnd::OnExitButtonClick()
+{
+	exit(0);
+}
+
 void CContentWnd::OnClick(CRectButton& aRectButton)
 {
 	if (&aRectButton == &iSelectFileButton)
@@ -244,5 +271,9 @@ void CContentWnd::OnClick(CRectButton& aRectButton)
 	else if (&aRectButton == &iNextPageButton)
 	{
 		OnNextPageButtonClick();
+	}
+	else if (&aRectButton == &iExitButton)
+	{
+		OnExitButtonClick();
 	}
 }
