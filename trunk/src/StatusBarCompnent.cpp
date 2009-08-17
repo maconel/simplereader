@@ -40,8 +40,9 @@ void CStatusBarCompnent::Draw(HDC aDc)
 	COLORREF oldTextColor;
 	HFONT oldFont = NULL;
 	HPEN oldPen = NULL;
-	TCHAR text[16];
+	TCHAR text[32];
 	int textLength = 0;
+	SYSTEM_POWER_STATUS_EX spse;
 	SYSTEMTIME now;
 	SIZE size;
 	RECT textRect;
@@ -50,9 +51,9 @@ void CStatusBarCompnent::Draw(HDC aDc)
 	const int PROGRESS_HEIGHT = 13;
 
 	//ÎÄ×Ö¡£
+	GetSystemPowerStatusEx(&spse, TRUE);
 	GetLocalTime(&now);
-	textLength = _stprintf(text, _T("%02.1f%% %02d:%02d"), iProgress * 100, now.wHour, now.wMinute);
-
+	textLength = _stprintf(text, _T("%02.1f%% [%d] %02d:%02d"), iProgress * 100, spse.BatteryLifePercent, now.wHour, now.wMinute);
 	//±³¾°¡£
 	CCompnent::Draw(aDc);
 
@@ -127,5 +128,5 @@ void CStatusBarCompnent::SetProgress(float aProgress)
 
 int CStatusBarCompnent::MeasureHeight()
 {
-	return iFontHeight;
+	return iFontHeight + 1;
 }

@@ -17,8 +17,14 @@ public:
 	RECT iSelectFileButtonRect;
 	RECT iPrevPageButtonRect;
 	RECT iNextPageButtonRect;
+	RECT iExitButtonRect;
 	CMzStringW iDefaultDirectory;
 	bool iScreenAlwaysOn;
+	bool iDisablekey_home;
+	bool iDisablekey_power;
+	bool iDisablekey_play;
+	bool iDisablekey_volumeup;
+	bool iDisablekey_volumedown;
 
 	CConfig();
 	virtual ~CConfig();

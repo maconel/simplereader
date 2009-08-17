@@ -29,8 +29,10 @@ protected:
 	CRectButton iPositionButton;
 	CRectButton iPrevPageButton;
 	CRectButton iNextPageButton;
+	CRectButton iExitButton;
 	CBookMemo iBookMemo;
 	MemoryDC iMemoryDC;
+	long iDisableKey;
 
 	BOOL OnInitDialog();
 	void PaintWin(HDC hdc, RECT* prcUpdate = NULL);
@@ -45,6 +47,7 @@ protected:
 	void OnPositionButtonClick();
 	void OnPrevPageButtonClick();
 	void OnNextPageButtonClick();
+	void OnExitButtonClick();
 
 	//From IRectButtonObserver.
 	void OnClick(CRectButton& aRectButton);

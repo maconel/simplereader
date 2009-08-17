@@ -63,7 +63,7 @@ void CContentCompnent::Draw(HDC aDc)
 			{
 				if (!GetTextExtentExPoint(aDc, begin, len, RECT_WIDTH(rect), &fit, NULL, &size))
 					break;
-				if (size.cy - 2 > RECT_HEIGHT(rect))	//M8默认的字体下，正好差2个象素就能多显示一行，所以这里优化一下。
+				if (size.cy > RECT_HEIGHT(rect))
 					break;
 				if (!ExtTextOut(aDc, rect.left, rect.top, 0, &rect, begin, fit, NULL))
 					break;
