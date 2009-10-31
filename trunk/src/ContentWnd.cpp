@@ -100,6 +100,12 @@ BOOL CContentWnd::OnInitDialog()
 	iPrevPageButton.SetBackColor(gConfig.iButtonColor);
 	iNextPageButton.SetBackColor(gConfig.iButtonColor);
 	iExitButton.SetBackColor(gConfig.iButtonColor);
+	
+	iPositionButton.SetBorderColor(gConfig.iButtonBorderColor);
+	iSelectFileButton.SetBorderColor(gConfig.iButtonBorderColor);
+	iPrevPageButton.SetBorderColor(gConfig.iButtonBorderColor);
+	iNextPageButton.SetBorderColor(gConfig.iButtonBorderColor);
+	iExitButton.SetBorderColor(gConfig.iButtonBorderColor);
 
 	//打开上次的文件。
 	if (!gConfig.iLastFilename.IsEmpty())
@@ -194,7 +200,7 @@ void CContentWnd::Draw(HDC aDc)
 	iStatusBarCompnent.Draw(aDc);
 }
 
-void CContentWnd::OnSelectFileButtonClick()
+void CContentWnd::OnSelectFileButtonClick(CRectButton& aRectButton)
 {
 	CMzStringW filename;
 
@@ -210,7 +216,7 @@ void CContentWnd::OnSelectFileButtonClick()
 	HideMzTopBar();
 }
 
-void CContentWnd::OnPositionButtonClick()
+void CContentWnd::OnPositionButtonClick(CRectButton& aRectButton)
 {
 	RECT rect = MzGetWindowRect();
 	CPositionWnd positionWnd;
@@ -225,7 +231,7 @@ void CContentWnd::OnPositionButtonClick()
 	}
 }
 
-void CContentWnd::OnPrevPageButtonClick()
+void CContentWnd::OnPrevPageButtonClick(CRectButton& aRectButton)
 {
 	iContent.ReadBack();
 	iBookMemo.SetOffset(iContent.GetOffset());
@@ -237,7 +243,7 @@ void CContentWnd::OnPrevPageButtonClick()
 	}
 }
 
-void CContentWnd::OnNextPageButtonClick()
+void CContentWnd::OnNextPageButtonClick(CRectButton& aRectButton)
 {
 	iContent.Read();
 	iBookMemo.SetOffset(iContent.GetOffset());
@@ -249,31 +255,41 @@ void CContentWnd::OnNextPageButtonClick()
 	}
 }
 
-void CContentWnd::OnExitButtonClick()
+void CContentWnd::OnExitButtonClick(CRectButton& aRectButton)
 {
 	exit(0);
 }
 
 void CContentWnd::OnClick(CRectButton& aRectButton)
 {
+	HDC dc = GetDC(m_hWnd);
+
+	if (dc != NULL)
+	{
+		aRectButton.DrawBorder(iMemoryDC.GetDC());
+		PaintWin(dc);
+		ReleaseDC(m_hWnd, dc);
+		dc = NULL;
+	}
+
 	if (&aRectButton == &iSelectFileButton)
 	{
-		OnSelectFileButtonClick();
+		OnSelectFileButtonClick(aRectButton);
 	}
 	else if (&aRectButton == &iPositionButton)
 	{
-		OnPositionButtonClick();
+		OnPositionButtonClick(aRectButton);
 	}
 	else if (&aRectButton == &iPrevPageButton)
 	{
-		OnPrevPageButtonClick();
+		OnPrevPageButtonClick(aRectButton);
 	}
 	else if (&aRectButton == &iNextPageButton)
 	{
-		OnNextPageButtonClick();
+		OnNextPageButtonClick(aRectButton);
 	}
 	else if (&aRectButton == &iExitButton)
 	{
-		OnExitButtonClick();
+		OnExitButtonClick(aRectButton);
 	}
 }
