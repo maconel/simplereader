@@ -43,11 +43,11 @@ protected:
 	void OpenFile(LPCTSTR aFilename);
 	void Draw(HDC aDc);
 
-	void OnSelectFileButtonClick();
-	void OnPositionButtonClick();
-	void OnPrevPageButtonClick();
-	void OnNextPageButtonClick();
-	void OnExitButtonClick();
+	void OnSelectFileButtonClick(CRectButton& aRectButton);
+	void OnPositionButtonClick(CRectButton& aRectButton);
+	void OnPrevPageButtonClick(CRectButton& aRectButton);
+	void OnNextPageButtonClick(CRectButton& aRectButton);
+	void OnExitButtonClick(CRectButton& aRectButton);
 
 	//From IRectButtonObserver.
 	void OnClick(CRectButton& aRectButton);

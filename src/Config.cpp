@@ -11,6 +11,7 @@ CConfig::CConfig()
 	iTextColor = RGB(0x7F, 0x7F, 0x7F);
 	iBackColor = RGB(0x00, 0x00, 0x00);
 	iButtonColor = RGB(0x30, 0x30, 0x30);
+	iButtonBorderColor = RGB(0xFF, 0xFF, 0x00);
 	iContentFontHeight = 28;
 	iStatusBarFontHeight = 22;
 	MAKE_RECT(iPositionButtonRect, 20, 20, 100, 100);
@@ -58,6 +59,11 @@ void CConfig::Load()
 	{
 		if (_stscanf(strValue, _T("%X"), &intValue) != 0)
 			iButtonColor = intValue;
+	}
+	if (IniReadString(_T("ui"), _T("buttonbordercolor"), &strValue, filename) && strValue != NULL)
+	{
+		if (_stscanf(strValue, _T("%X"), &intValue) != 0)
+			iButtonBorderColor = intValue;
 	}
 
 	if (IniReadInt(_T("ui"), _T("contentfontheight"), &intValue, filename))

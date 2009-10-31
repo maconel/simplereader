@@ -11,6 +11,7 @@ public:
 	long iTextColor;
 	long iBackColor;
 	long iButtonColor;
+	long iButtonBorderColor;
 	int iContentFontHeight;
 	int iStatusBarFontHeight;
 	RECT iPositionButtonRect;
