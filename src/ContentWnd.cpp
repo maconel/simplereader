@@ -266,8 +266,7 @@ void CContentWnd::OnClick(CRectButton& aRectButton)
 
 	if (dc != NULL)
 	{
-		aRectButton.DrawBorder(iMemoryDC.GetDC());
-		PaintWin(dc);
+		aRectButton.DrawBorder(dc);
 		ReleaseDC(m_hWnd, dc);
 		dc = NULL;
 	}
