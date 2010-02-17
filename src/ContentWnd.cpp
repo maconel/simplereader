@@ -42,9 +42,6 @@ BOOL CContentWnd::OnInitDialog()
 	iMemoryDC.Create(GetWidth(), GetHeight());
 	SetBkMode(iMemoryDC.GetDC(), TRANSPARENT);
 
-	//Òþ²Ø±êÌâÀ¸¡£
-	HideMzTopBar();
-
 	//±³¾°µÆ¡£
 	if (gConfig.iScreenAlwaysOn)
 	{
@@ -137,6 +134,19 @@ int CContentWnd::OnShellHomeKey(UINT message, WPARAM wParam, LPARAM lParam)
 	return SHK_RET_APPEXIT_SHELLTOP;
 }
 
+LRESULT CContentWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_ACTIVATE:
+		//Òþ²Ø±êÌâÀ¸¡£
+		HideMzTopBar();
+		break;
+	}
+
+	return CMzWndEx::MzDefWndProc(message, wParam, lParam);
+}
+
 bool CContentWnd::SelectFile(CMzStringW& aFilename)
 {
 	bool ret = false;
@@ -213,7 +223,6 @@ void CContentWnd::OnSelectFileButtonClick(CRectButton& aRectButton)
 
 		Draw(iMemoryDC.GetDC());
 	}
-	HideMzTopBar();
 }
 
 void CContentWnd::OnPositionButtonClick(CRectButton& aRectButton)

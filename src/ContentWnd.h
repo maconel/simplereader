@@ -38,6 +38,7 @@ protected:
 	void PaintWin(HDC hdc, RECT* prcUpdate = NULL);
 	void OnLButtonUp(UINT fwKeys, int xPos, int yPos);
 	int OnShellHomeKey(UINT message, WPARAM wParam, LPARAM lParam);
+	LRESULT MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam);
 
 	bool SelectFile(CMzStringW& aFilename);
 	void OpenFile(LPCTSTR aFilename);
