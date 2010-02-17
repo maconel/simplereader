@@ -27,7 +27,7 @@ void CContentCompnent::Draw(HDC aDc)
 	int len = 0;
 	int fit = 0;
 	RECT rect = iRect;
-	const int LINE_SPACE = 7;
+	const int LINE_SPACE = iFontHeight / 4;		//行间距用行高的1/4
 
 	//背景。
 	CCompnent::Draw(aDc);
