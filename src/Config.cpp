@@ -26,6 +26,7 @@ CConfig::CConfig()
 	iDisablekey_play = true;
 	iDisablekey_volumeup = true;
 	iDisablekey_volumedown = true;
+	iShellHomekeyReturnValue = SHK_RET_APPNOEXIT_SHELLTOP;
 }
 
 CConfig::~CConfig()
@@ -132,6 +133,9 @@ void CConfig::Load()
 		iDisablekey_volumeup = !!intValue;
 	if (IniReadInt(_T("ui"), _T("disablekey_volumedown"), &intValue, filename))
 		iDisablekey_volumedown = !!intValue;
+
+	if (IniReadInt(_T("ui"), _T("set_shellhomekey_returnvalue"), &intValue, filename))
+		iShellHomekeyReturnValue = intValue;
 }
 
 void CConfig::Save()
