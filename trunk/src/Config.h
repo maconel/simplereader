@@ -26,6 +26,7 @@ public:
 	bool iDisablekey_play;
 	bool iDisablekey_volumeup;
 	bool iDisablekey_volumedown;
+	int iShellHomekeyReturnValue;
 
 	CConfig();
 	virtual ~CConfig();

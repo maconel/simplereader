@@ -62,6 +62,9 @@ BOOL CContentWnd::OnInitDialog()
 		iDisableKey |= MZ_HARDKEY_VOLUME_DOWN;
 	HoldShellUsingSomeKeyFunction(m_hWnd, iDisableKey);
 
+	//按M键的行为。
+	SetShellHomekeyReturnValue(gConfig.iShellHomekeyReturnValue);
+
 	//字体。
 	iStatusBarCompnent.SetFontHeight(gConfig.iStatusBarFontHeight);
 
@@ -129,18 +132,16 @@ void CContentWnd::OnLButtonUp(UINT fwKeys, int xPos, int yPos)
 	iExitButton.ButtonDown(xPos, yPos);
 }
 
-int CContentWnd::OnShellHomeKey(UINT message, WPARAM wParam, LPARAM lParam)
-{
-	return SHK_RET_APPEXIT_SHELLTOP;
-}
-
 LRESULT CContentWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
 	case WM_ACTIVATE:
-		//隐藏标题栏。
-		HideMzTopBar();
+		if (wParam == WA_ACTIVE)
+		{
+			//隐藏标题栏。
+			HideMzTopBar();
+		}
 		break;
 	}
 
