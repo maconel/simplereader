@@ -25,7 +25,7 @@ CContentWnd::~CContentWnd()
 
 	if (gConfig.iScreenAlwaysOn)
 	{
-		SetScrennAutoOff();
+		SetScreenAutoOff();
 	}
 	ShowMzTopBar();
 }
@@ -142,6 +142,11 @@ LRESULT CContentWnd::MzDefWndProc(UINT message, WPARAM wParam, LPARAM lParam)
 			//隐藏标题栏。
 			HideMzTopBar();
 		}
+		else if (wParam == WA_INACTIVE)
+		{
+			//显示标题栏。
+			ShowMzTopBar();
+		}
 		break;
 	}
 
@@ -215,7 +220,6 @@ void CContentWnd::OnSelectFileButtonClick(CRectButton& aRectButton)
 {
 	CMzStringW filename;
 
-	ShowMzTopBar();
 	if (SelectFile(filename))
 	{
 		OpenFile(filename);

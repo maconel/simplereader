@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,6.00"
-				AdditionalDependencies="mzfc.lib PlatformApi.lib CallInterface.lib"
+				AdditionalDependencies="mzfc.lib PlatformApi.lib"
 				OutputFile="$(OutDir)/bin/SimpleReader.exe"
 				LinkIncremental="2"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
@@ -144,7 +144,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,6.00"
-				AdditionalDependencies="mzfc.lib PlatformApi.lib CallInterface.lib"
+				AdditionalDependencies="mzfc.lib PlatformApi.lib"
 				OutputFile="$(OutDir)/bin/SimpleReader.exe"
 				LinkIncremental="1"
 				ManifestFile="$(IntDir)\$(TargetFileName).intermediate.manifest"
