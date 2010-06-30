@@ -19,8 +19,6 @@ CContent::~CContent()
 
 bool CContent::OpenFile(LPCTSTR aFilename)
 {
-	CloseFile();
-
 	iFilename = aFilename;
 
 	ClearContent();
@@ -36,6 +34,25 @@ bool CContent::OpenFile(LPCTSTR aFilename)
 	}
 
 	return (iFile != NULL);
+}
+
+bool CContent::ReOpenFile()
+{
+	fclose(iFile);
+	iFile = NULL;
+	ClearContent();
+	iFile = _tfopen(iFilename, _T("rb"));
+	if (iFile != NULL)
+	{
+		fseek(iFile, 0, SEEK_END);
+		iFileSize = ftell(iFile);
+		fseek(iFile, 0, SEEK_SET);
+		CheckHead();
+		Seek(iOffset);
+
+		return true;
+	}
+	return false;
 }
 
 void CContent::CloseFile()
@@ -222,7 +239,7 @@ int CContent::ReadUnicode()
 	ret = fread(&iContent[iContentLength], 1, (CONTENT_LEN - iContentLength) * 2, iFile);
 	iContentLength += ret / 2;
 
-	iOffset = ftell(iFile) - iContentLength * 2;
+	iOffset = SmartTell() - iContentLength * 2;
 	if (iOffset % 2 != 0)
 	{
 		if (fread(&iContent[iContentLength], 1, 1, iFile) > 0)
@@ -246,7 +263,7 @@ int CContent::ReadGbk()
 		int remainSize = 0;
 		u2a(iContent, remainSizeU, NULL, remainSize, WC_COMPOSITECHECK | WC_DEFAULTCHAR);
 		iConvertRemainSize += ret;
-		iOffset = ftell(iFile) - iConvertRemainSize - remainSize;
+		iOffset = SmartTell() - iConvertRemainSize - remainSize;
 
 		int convertSize = iConvertRemainSize;
 		int convertSizeU = CONTENT_LEN - iContentLength;
@@ -276,37 +293,6 @@ int CContent::ReadGbk()
 		{
 			iConvertRemainSize = 0;
 		}
-		/*
-		char* first = iConvertRemain;
-		iConvertRemainSize += ret;
-		iOffset = ftell(iFile) - iConvertRemainSize;
-
-		while (CONTENT_LEN - iContentLength > 8 && iConvertRemainSize > 0)
-		{
-			int convertSize = iConvertRemainSize;
-			int convertSizeU = CONTENT_LEN - iContentLength;
-
-			if (a2u(first, convertSize, &iContent[iContentLength], convertSizeU))
-			{
-				iConvertRemainSize -= convertSize;
-				first += convertSize;
-				iContentLength += convertSizeU;
-			}
-			else
-			{
-				if (iConvertRemainSize > 1)
-				{
-					iConvertRemainSize--;
-					first++;
-				}
-				else
-				{
-					break;
-				}
-			}
-		}
-		memcpy(iConvertRemain, first, iConvertRemainSize);
-		*/
 	}
 
 	return ret;
@@ -324,7 +310,7 @@ int CContent::ReadUtf8()
 		char* p = NULL;
 		unicode_to_utf8(iContent, remainSizeU, NULL, remainSize);
 		iConvertRemainSize += ret;
-		iOffset = ftell(iFile) - iConvertRemainSize - remainSize;
+		iOffset = SmartTell() - iConvertRemainSize - remainSize;
 
 		bool rst = true;
 
@@ -354,6 +340,20 @@ int CContent::ReadUtf8()
 		}
 
 		memcpy(iConvertRemain, p, iConvertRemainSize);
+	}
+
+	return ret;
+}
+
+long CContent::SmartTell()
+{
+	long ret = -1;
+
+	ret = ftell(iFile);
+	if (ret == -1)
+	{
+		ReOpenFile();
+		ret = ftell(iFile);
 	}
 
 	return ret;
