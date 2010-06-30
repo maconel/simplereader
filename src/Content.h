@@ -21,6 +21,7 @@ public:
 	virtual ~CContent();
 
 	bool OpenFile(LPCTSTR aFilename);
+	bool ReOpenFile();
 	void CloseFile();
 	void ClearContent();
 	void Seek(unsigned int aOffset);
@@ -48,4 +49,5 @@ protected:
 	int ReadUnicode();
 	int ReadGbk();
 	int ReadUtf8();
+	long SmartTell();
 };
